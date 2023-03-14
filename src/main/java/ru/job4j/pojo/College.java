@@ -9,6 +9,7 @@ public class College {
         student.setGroup("Industrial and civil construction");
         student.setReceiptDate(new Date());
 
-        System.out.println(student.getFio() + " studies " + student.getGroup() + " since " + student.getReceiptDate());
+        System.out.println(student.getFio() + " studies "
+                + student.getGroup() + " since " + student.getReceiptDate());
     }
 }
