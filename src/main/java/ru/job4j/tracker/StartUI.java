@@ -73,14 +73,20 @@ public class StartUI {
         while (run) {
             showMenu();
             int select = input.askInt("Select: ");
-            switch (select) {
-                case 0 -> StartUI.createItem(input, tracker);
-                case 1 -> StartUI.showAllItems(input, tracker);
-                case 2 -> StartUI.editItem(input, tracker);
-                case 3 -> StartUI.deleteItem(input, tracker);
-                case 4 -> StartUI.findItemById(input, tracker);
-                case 5 -> StartUI.findItemByName(input, tracker);
-                case 6 -> run = false;
+            if (select == 0) {
+                StartUI.createItem(input, tracker);
+            } else if (select == 1) {
+                StartUI.showAllItems(input, tracker);
+            } else if (select == 2) {
+                StartUI.editItem(input, tracker);
+            } else if (select == 3) {
+                StartUI.deleteItem(input, tracker);
+            } else if (select == 4) {
+                StartUI.findItemById(input, tracker);
+            } else if (select == 5) {
+                StartUI.findItemByName(input, tracker);
+            } else if (select == 6) {
+                run = false;
             }
         }
     }
