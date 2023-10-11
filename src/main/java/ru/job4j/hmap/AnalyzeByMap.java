@@ -32,17 +32,14 @@ public class AnalyzeByMap {
 
     public static List<Label> averageScoreBySubject(List<Pupil> pupils) {
         List<Label> rsl = new ArrayList<>();
-        Map<String, Integer> subjectsMap = new LinkedHashMap<>();
+        Map<String, Integer> subjMap = new LinkedHashMap<>();
         for (Pupil pupil : pupils) {
             for (Subject subject : pupil.subjects()) {
-                int subjScore = subjectsMap.containsKey(subject.name())
-                        ? subjectsMap.get(subject.name()) + subject.score()
-                        : subject.score();
-                subjectsMap.put(subject.name(), subjScore);
+                subjMap.put(subject.name(), subjMap.getOrDefault(subject.name(), 0) + subject.score());
             }
         }
-        for (String subjectName : subjectsMap.keySet()) {
-            rsl.add(new Label(subjectName, (double) subjectsMap.get(subjectName) / pupils.size()));
+        for (String subjectName : subjMap.keySet()) {
+            rsl.add(new Label(subjectName, (double) subjMap.get(subjectName) / pupils.size()));
         }
         return rsl;
     }
@@ -62,17 +59,14 @@ public class AnalyzeByMap {
 
     public static Label bestSubject(List<Pupil> pupils) {
         List<Label> subjList = new ArrayList<>();
-        Map<String, Integer> subjectsMap = new LinkedHashMap<>();
+        Map<String, Integer> subjMap = new LinkedHashMap<>();
         for (Pupil pupil : pupils) {
             for (Subject subject : pupil.subjects()) {
-                int subjScore = subjectsMap.containsKey(subject.name())
-                        ? subjectsMap.get(subject.name()) + subject.score()
-                        : subject.score();
-                subjectsMap.put(subject.name(), subjScore);
+                subjMap.put(subject.name(), subjMap.getOrDefault(subject.name(), 0) + subject.score());
             }
         }
-        for (String subjectName : subjectsMap.keySet()) {
-            subjList.add(new Label(subjectName, (double) subjectsMap.get(subjectName)));
+        for (String subjectName : subjMap.keySet()) {
+            subjList.add(new Label(subjectName, (double) subjMap.get(subjectName)));
         }
         subjList.sort(Comparator.naturalOrder());
         return subjList.get(subjList.size() - 1);
