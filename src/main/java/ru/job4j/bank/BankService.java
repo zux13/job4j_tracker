@@ -1,14 +1,11 @@
 package ru.job4j.bank;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.sun.source.tree.Tree;
+
+import java.util.*;
 
 /**
  * Описывает банковский сервис.
- * <p>
- *
  *
  * @author Rustem Galiullin
  * @version 1.0
@@ -43,7 +40,7 @@ public class BankService {
      * Добавляет аккаунт пользователя в коллекцию, в случае когда его там нет.
      * <p>
      * Осуществляет поиск пользователя по паспорту, вызывая метод {@link #findByPassport(String)}. Если пользователь
-     * найден, получается список его аккаунтов и, в случае отсутствия в списке, переданный аккаунт добавляется.
+     * найден, получает список его аккаунтов и, в случае отсутствия в списке, переданный аккаунт добавляется.
      *
      * @param passport паспорт пользователя в строковом виде
      * @param account  аккаунт пользователя {@link Account}
