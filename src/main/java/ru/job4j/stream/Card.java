@@ -13,7 +13,10 @@ public class Card {
 
     @Override
     public String toString() {
-        return suit.toString() + " " + value.toString();
+        return "Card{"
+                + "suit=" + suit
+                + ", value=" + value
+                + '}';
     }
 
     public static void main(String[] args) {
