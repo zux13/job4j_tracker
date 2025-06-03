@@ -6,8 +6,9 @@ import lombok.*;
 @RequiredArgsConstructor
 public class Category {
     @Getter
+    @NonNull
     @EqualsAndHashCode.Include
-    private final int id;
+    private Long id;
 
     @Getter
     @Setter
