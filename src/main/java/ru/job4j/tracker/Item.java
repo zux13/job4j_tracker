@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +22,14 @@ public class Item {
     private String name;
     private LocalDateTime created = LocalDateTime.now().withNano(0);
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+    @ManyToMany
+    @JoinTable(
+            name = "participates",
+            joinColumns = { @JoinColumn(name = "item_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+    )
+    private List<ru.job4j.toone.User> participates = new ArrayList<>();
 
     public Item(String name) {
         this.name = name;

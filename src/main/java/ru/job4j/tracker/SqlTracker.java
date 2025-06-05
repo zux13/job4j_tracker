@@ -43,7 +43,8 @@ public class SqlTracker implements Store {
                         new Item(
                                 resultSet.getInt("id"),
                                 resultSet.getString("name"),
-                                resultSet.getTimestamp("created").toLocalDateTime()
+                                resultSet.getTimestamp("created").toLocalDateTime(),
+                                new ArrayList<>() /* Todo: убрать костыль */
                         )
                 );
             }
