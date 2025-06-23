@@ -3,17 +3,19 @@ package ru.job4j.tracker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.List;
 
 public class HbmTracker implements Store, AutoCloseable {
-    private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-            .configure().build();
-    private final SessionFactory sf = new MetadataSources(registry)
-            .buildMetadata().buildSessionFactory();
+    private final StandardServiceRegistry registry;
+    private final SessionFactory sf;
+
+    public HbmTracker(SessionFactory sf, StandardServiceRegistry registry) {
+        this.sf = sf;
+        this.registry = registry;
+    }
 
     @Override
     public Item add(Item item) {
@@ -96,6 +98,11 @@ public class HbmTracker implements Store, AutoCloseable {
 
     @Override
     public void close() {
-        StandardServiceRegistryBuilder.destroy(registry);
+        if (sf != null) {
+            sf.close();
+        }
+        if (registry != null) {
+            StandardServiceRegistryBuilder.destroy(registry);
+        }
     }
 }
