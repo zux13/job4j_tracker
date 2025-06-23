@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,19 +20,38 @@ public class SqlTracker implements Store {
     }
 
     private void init() {
-        try (InputStream input = SqlTracker.class.getClassLoader()
-                .getResourceAsStream("db/liquibase.properties")) {
-            Properties config = new Properties();
-            config.load(input);
-            Class.forName(config.getProperty("driver-class-name"));
-            connection = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
+        try {
+            connection = loadConnection();
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    private String loadSysEnvIfNullThenConfig(String sysEnv, String key, Properties config) {
+        String value = System.getenv(sysEnv);
+        if (value == null) {
+            value = config.getProperty(key);
+        }
+        return value;
+    }
+
+    private Connection loadConnection() throws ClassNotFoundException, SQLException {
+        var config = new Properties();
+        try (InputStream in = StartUI.class.getClassLoader()
+                .getResourceAsStream("app.properties")) {
+            config.load(in);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+        String url = loadSysEnvIfNullThenConfig("JDBC_URL", "url", config);
+        String username = loadSysEnvIfNullThenConfig("JDBC_USERNAME", "username", config);
+        String password = loadSysEnvIfNullThenConfig("JDBC_PASSWORD", "password", config);
+        String driver = loadSysEnvIfNullThenConfig("JDBC_DRIVER", "driver-class-name", config);
+        System.out.println("url=" + url);
+        Class.forName(driver);
+        return DriverManager.getConnection(
+                url, username, password
+        );
     }
 
     private List<Item> getListOfItems(String query) {
